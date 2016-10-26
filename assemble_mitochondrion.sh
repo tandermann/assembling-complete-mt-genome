@@ -1,6 +1,17 @@
 #!/bin/bash
 #author: Tobias Hofmann
 #give sample file name as first input in commandline and your reference file name as second
+contigs=$1
+
+#the following lines make sure that the header of the contigs is compatible with the rest of the script. 
+#It will edit the fasta headers if they are in the incorrect format. 
+#Just in case a copy of the contigs file with the original fasta headers is saved in the folder 'original_contig_names'
+mkdir original_contig_names
+awk '{print $1}' $contigs > $contigs.fasta
+mv $contigs original_contig_names/$contigs
+mv $contigs.fasta $contigs
+
+$1=$contigs
 input=$(basename "$1");
 sample3=$(echo "$input" | sed 's/-contigs//');
 sample2=$(echo "$sample3" | sed 's/.fasta//');
